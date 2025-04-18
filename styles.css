@@ -1,0 +1,663 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff5f7;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(255, 192, 203, 0.3);
+}
+
+.egg {
+    width: 200px;
+    height: 250px;
+    background-color: #ffb6c1;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    margin: 0 auto 2rem;
+    transition: all 0.5s ease;
+    box-shadow: 0 0 20px rgba(255, 182, 193, 0.4);
+}
+
+.egg.cracked {
+    background-image: 
+        linear-gradient(45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%);
+    background-size: 20px 20px;
+    background-position: center;
+    animation: crack 0.5s ease;
+}
+
+.egg.enlightened {
+    background-color: #39ff14;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+    animation: glow 2s infinite;
+}
+
+.egg.perfect {
+    background: linear-gradient(45deg, #ff69b4, #39ff14, #ff69b4);
+    background-size: 200% 200%;
+    animation: rainbow 3s infinite;
+}
+
+.egg-face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.eyes {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.eye {
+    width: 20px;
+    height: 20px;
+    background-color: #ff69b4;
+    border-radius: 50%;
+    animation: blink 3s infinite;
+}
+
+.mouth {
+    width: 40px;
+    height: 10px;
+    background-color: #ff69b4;
+    border-radius: 5px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.score-display {
+    font-size: 1.5rem;
+    color: #ff69b4;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(255, 192, 203, 0.3);
+}
+
+.question-container {
+    margin: 1rem auto;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 192, 203, 0.2);
+    border: 2px solid #ffb6c1;
+}
+
+.question {
+    font-size: 1.5rem;
+    color: #ff69b4;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    text-shadow: 1px 1px 2px rgba(255, 192, 203, 0.3);
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.option {
+    padding: 1.5rem;
+    background-color: #fff;
+    border: 2px solid #ffb6c1;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    color: #ff69b4;
+    box-shadow: 0 4px 6px rgba(255, 192, 203, 0.2);
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+.option-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: #ff69b4;
+    color: white;
+}
+
+.option-btn.correct {
+    background-color: #39ff14;
+    color: white;
+}
+
+.option-btn.incorrect {
+    background-color: #ff4500;
+    color: white;
+}
+
+.glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
+.glitch-active {
+    opacity: 1;
+    animation: glitch 0.5s infinite;
+}
+
+.ending {
+    text-align: center;
+    padding: 2rem;
+}
+
+.ending-text {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.final-text {
+    font-size: 1.2rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.restart-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: #ffb6c1;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px rgba(255, 192, 203, 0.3);
+}
+
+.restart-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 192, 203, 0.4);
+    background-color: #ff69b4;
+}
+
+@keyframes blink {
+    0%, 96%, 100% { transform: scaleY(1); }
+    98% { transform: scaleY(0.1); }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes crack {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 30px rgba(57, 255, 20, 0.5); }
+    50% { box-shadow: 0 0 50px rgba(57, 255, 20, 0.8); }
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ASCII art styling */
+.ascii-art {
+    font-family: monospace;
+    white-space: pre;
+    font-size: 12px;
+    color: #333;
+    margin: 1rem 0;
+    animation: ascii-float 2s infinite;
+}
+
+@keyframes ascii-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+        max-width: 100%;
+    }
+
+    .egg {
+        width: 120px;
+        height: 160px;
+        margin: 1rem auto;
+    }
+
+    .dialogue {
+        font-size: 1.1rem;
+        padding: 1rem;
+        margin: 1rem 0;
+        min-height: 80px;
+        line-height: 1.4;
+    }
+
+    .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .option {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .score-display {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    /* Fix for bunny emojis not displacing options */
+    .feedback {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 2rem;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    /* Make question text more readable */
+    .question {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        margin-bottom: 1rem;
+    }
+
+    /* Adjust button sizes for mobile */
+    .start-btn, .restart-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Fix for selected answer staying highlighted */
+    .option.selected {
+        background: linear-gradient(45deg, #ff69b4, #ff1493);
+        transform: none;
+    }
+
+    .option:not(.selected) {
+        background: #fff;
+    }
+
+    /* Adjust ending animations for mobile */
+    .perfect-ending, .golden, .chocolate, .hard-boiled {
+        min-height: 300px;
+    }
+
+    .jesus-quote {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+
+    .final-text {
+        font-size: 1.2rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Fix for iOS voice synthesis */
+@supports (-webkit-touch-callout: none) {
+    .dialogue {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+    }
+}
+
+/* Perfect Ending - Anime Jesus */
+.perfect-ending {
+    position: relative;
+    min-height: 500px;
+    background: linear-gradient(45deg, #000, #1a1a1a);
+    overflow: hidden;
+}
+
+.crack-animation {
+    position: relative;
+    animation: egg-shake 1s ease-in-out;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+@keyframes egg-shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+.egg.crack {
+    animation: crack-egg 2s forwards;
+    background: radial-gradient(circle at center, #fff 0%, #ffd700 100%);
+}
+
+@keyframes crack-egg {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { 
+        transform: scale(1);
+        background-image: 
+            linear-gradient(45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%),
+            linear-gradient(-45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%);
+        background-size: 20px 20px;
+        background-position: center;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+}
+
+.jesus-appears {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all 2s ease;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+}
+
+.jesus-appears.visible {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    animation: jesus-float 4s infinite ease-in-out;
+}
+
+@keyframes jesus-float {
+    0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) scale(1.05) rotate(2deg); }
+}
+
+.jesus-quote {
+    font-size: 1.3rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    margin-top: 1.5rem;
+    font-style: italic;
+    animation: text-glow 3s infinite alternate;
+}
+
+@keyframes text-glow {
+    0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+    100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+}
+
+/* Good Ending - Golden Egg */
+.golden {
+    background: linear-gradient(45deg, #ffd700, #ffa500, #ffd700);
+    background-size: 300% 300%;
+    animation: golden-glow 2s infinite;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.sparkle-animation::before {
+    content: '✨';
+    position: absolute;
+    font-size: 3rem;
+    animation: sparkle 1.5s infinite;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes golden-glow {
+    0% { 
+        background-position: 0% 50%;
+        transform: rotateY(0deg);
+    }
+    50% { 
+        background-position: 100% 50%;
+        transform: rotateY(180deg);
+    }
+    100% { 
+        background-position: 0% 50%;
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(0deg);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.5) rotate(180deg);
+    }
+}
+
+/* Average Ending - Chocolate Egg */
+.chocolate {
+    background: linear-gradient(45deg, #8B4513, #A0522D, #8B4513);
+    animation: melt 2s infinite;
+    box-shadow: 0 0 30px rgba(139, 69, 19, 0.8);
+}
+
+.melt-animation {
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.melt-animation::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 15px;
+    background: #8B4513;
+    border-radius: 50%;
+    animation: drip 1.5s infinite;
+    box-shadow: 0 0 20px rgba(139, 69, 19, 0.8);
+}
+
+@keyframes melt {
+    0%, 100% { 
+        transform: scaleY(1) rotate(0deg);
+    }
+    50% { 
+        transform: scaleY(0.8) rotate(10deg);
+    }
+}
+
+@keyframes drip {
+    0% { 
+        transform: translateY(0) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% { 
+        transform: translateY(15px) scale(1.5) rotate(180deg);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateY(30px) scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Poor Ending - Hard-boiled Egg */
+.hard-boiled {
+    background: linear-gradient(45deg, #f5f5dc, #fff, #f5f5dc);
+    animation: bounce 2s infinite;
+    box-shadow: 0 0 15px rgba(245, 245, 220, 0.4);
+}
+
+.bounce-animation {
+    position: relative;
+}
+
+@keyframes bounce {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg);
+    }
+    50% { 
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+/* Final Text Styles */
+.final-text {
+    font-size: 2rem;
+    margin: 2rem 0;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    animation: text-pulse 2s infinite;
+}
+
+@keyframes text-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Add some particle effects */
+.perfect-ending::before,
+.golden::before,
+.chocolate::before,
+.hard-boiled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+    animation: particle-float 3s infinite;
+}
+
+@keyframes particle-float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .perfect-ending {
+        min-height: 400px;
+    }
+    
+    .jesus-quote {
+        font-size: 1.2rem;
+    }
+    
+    .final-text {
+        font-size: 1.5rem;
+    }
+    
+    .restart-btn {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+    }
+}
+
+.start-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: #ffb6c1;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px rgba(255, 192, 203, 0.3);
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 192, 203, 0.4);
+    background-color: #ff69b4;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.option {
+    padding: 1rem;
+    background-color: #fff;
+    border: 2px solid #ffb6c1;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    color: #ff69b4;
+    box-shadow: 0 4px 6px rgba(255, 192, 203, 0.2);
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    background-color: #ffb6c1;
+    color: white;
+    box-shadow: 0 6px 12px rgba(255, 192, 203, 0.3);
+}
+
+.option.selected {
+    background-color: #ffb6c1;
+    color: white;
+}
+
+.option.correct {
+    background-color: #98fb98;
+    color: white;
+    border-color: #98fb98;
+}
+
+.option.incorrect {
+    background-color: #ffb6c1;
+    color: white;
+    border-color: #ffb6c1;
+} 
