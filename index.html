@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Quiz Egg</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="clive" class="egg">
+            <div class="egg-shell"></div>
+            <div class="egg-face">
+                <div class="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+            <div class="decorations"></div>
+        </div>
+        
+        <div class="score-display" id="score-display">Score: 0/7</div>
+
+        <div class="question-container">
+            <h2 id="question-text" class="question"></h2>
+        </div>
+
+        <button id="start-btn" class="start-btn">Start Quiz</button>
+
+        <div id="options-container" class="options-container">
+            <!-- Options will be dynamically added here -->
+        </div>
+
+        <div id="glitch-overlay" class="glitch-overlay"></div>
+
+        <!-- Decoration Interface (hidden by default) -->
+        <div id="decoration-interface" class="decoration-interface" style="display: none;">
+            <h3>Decorate Your Perfect Egg! 🎨</h3>
+            <div class="decoration-options">
+                <button class="decoration-btn" data-decoration="hat">🎩</button>
+                <button class="decoration-btn" data-decoration="glasses">👓</button>
+                <button class="decoration-btn" data-decoration="mustache">👨</button>
+                <button class="decoration-btn" data-decoration="crown">👑</button>
+                <button class="decoration-btn" data-decoration="bowtie">🎀</button>
+            </div>
+            <button id="save-decoration" class="save-btn">Save Decoration</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
